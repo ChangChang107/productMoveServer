@@ -7,10 +7,7 @@ let createJWT = (id, email, role) => {
   return token;
 };
 let verifyToken = (req, res, next) => {
-  // const token = req.headers.authorization.split(' ')[1];
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJnaWFuZ2FiYzEyM0B2bnUuZWR1LnZuIiwicm9sZSI6InN0b3JlIiwiaWF0IjoxNjcyMzc0MjgxfQ.LkVYgYna6v-YQ9Wp4Mze3PDD7jT17bzaUx3P8qMZbrw'
-  console.log()
-  console.log(req.headers)
+  const token = req.headers.authorization;
   if (!token) {
     return res.status(404).json({
       message: "No token",

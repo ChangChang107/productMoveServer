@@ -6,24 +6,14 @@ var logger = require("morgan");
 require("dotenv").config();
 var connectDB = require("./config/connectDB");
 var initWebRouter = require("./routes/index");
-<<<<<<< HEAD
 require("dotenv").config();
 var cors = require("cors");
 
 var app = express();
 app.use(
   cors({
-    // origin: ["http://localhost:3000"],
-    origin: '*',
-=======
-var cors = require("cors");
-
-var app = express();
-
-app.use(
-  cors({
     origin: ["http://localhost:3000"],
->>>>>>> 8c3beece1d17de2fbd79ae8877e9d444148d0e47
+    // origin: '*',
     credentials: true,
   })
 );

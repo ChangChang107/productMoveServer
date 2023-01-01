@@ -37,13 +37,17 @@ let login = async (req, res) => {
 };
 
 let createUser = async (req, res) => {
+  console.log(req.body)
+  console.log(req.cookies)
   try {
-    console.log(req.cookies);
     var user = await User.findOne({
       email: req.body.email,
     });
+    console.log(user)
     if (user == null) {
+      console.log(123)
       await crudService.createNewUser(req);
+      console.log(1)
       var html = `<h3>BigCorp</h3><p><b>BigCorp xin thông báo:</b> Tài khoản ${req.body.email} vừa trở thành đối tác của BigCorp. Rất vui được trở thành nhà đồng hành của đối tác trên chặng đường sắp tới.</p>`;
       sendMail(req.body.email, "Sign in verify", html);
       return res.status(200).json({
@@ -58,7 +62,7 @@ let createUser = async (req, res) => {
     }
   } catch (error) {
     return res.status(200).json({
-      message: "Nhập sai",
+      message: "nhập sai",
       errCode: 1,
     });
   }
@@ -130,6 +134,15 @@ let changePassword = async (req, res) => {
 //     });
 //   } catch (error) {}
 // };
+let getAllUser = async (req, res) => {
+  var users = await User.find({
+    role: { $ne: "admin" },
+  }).select(["_id", "email", "role"]);
+  return res.json({
+    errCode: 0,
+    payload: users,
+  });
+};
 
 let getAllProductName = async (req, res) => {
   var page = req.body.page;
@@ -186,4 +199,5 @@ module.exports = {
   changePassword,
   forgetPassword,
   getAllProductName,
+  getAllUser,
 };

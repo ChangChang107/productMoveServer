@@ -53,7 +53,7 @@ let importProduct = async (req) => {
   var height = req.body.height;
   var expiry = req.body.expiry;
   var quantity = req.body.quantity;
-  var status = req.body.status;
+  var status = req.body._status;
 
   var producthistorymodel = await ProductHistoryModel.findOne({
     userinid: data.id,
@@ -114,7 +114,7 @@ let exportProduct = async (req) => {
   var height = req.body.height;
   var expiry = req.body.expiry;
   var quantity = req.body.quantity;
-  var status = req.body.status;
+  var status = req.body._status;
 
   var producthistorymodel = await ProductHistoryModel.findOne({
     userinid: data.id,
@@ -176,9 +176,9 @@ let getProductHistory = async (req, res) => {
 };
 let getProductInMonth = async (req, res) => {
   var data = jwt.verify(req.headers.authorization, process.env.secret);
-  var year = req.body.year;
-  var month = req.body.month;
-  var status = req.body.status;
+  var year = req.query.year;
+  var month = req.query.month;
+  var status = req.query.status;
 
   var count = await ProductHistoryModel.find({
     userinid: data.id,
@@ -197,23 +197,16 @@ let getProductInMonth = async (req, res) => {
 };
 let getProductInYear = async (req, res) => {
   var data = jwt.verify(req.headers.authorization, process.env.secret);
-  console.log(1)
-  var year = req.body.year;
-  console.log(2)
-  var status = req.body.status;
-  console.log(3)
-  console.log(req.query)
-  console.log(year)
-  console.log(status)
+  var year = req.query.year;
+  var status = req.query.status;
   var count = await ProductHistoryModel.find({
     userinid: data.id,
     createAt: {
-      $gte: new Date(parseInt(req.query.year), 1, 1),
-      $lte: new Date(parseInt(req.query.year) + 1, 1, 1),
+      $gte: new Date(parseInt(year), 1, 1),
+      $lte: new Date(parseInt(year) + 1, 1, 1),
     },
-    status: req.query.status,
+    status: status,
   }).count();
-  console.log(4)
   return res.json({
     errCode: 0,
     year: year,
@@ -242,9 +235,9 @@ let getProductInQuarterly = async (req, res) => {
 };
 let getProductOutMonth = async (req, res) => {
   var data = jwt.verify(req.headers.authorization, process.env.secret);
-  var year = req.body.year;
-  var month = req.body.month;
-  var status = req.body.status;
+  var year = req.query.year;
+  var month = req.query.month;
+  var status = req.query.status;
 
   var count = await ProductHistoryModel.find({
     useroutid: data.id,

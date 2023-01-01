@@ -20,7 +20,7 @@ let getAllModelName = async (req, res) => {
   var productSeriModel = await ProductseriModel.find({
     userid: data.id,
   })
-    .select(["modelname", "name", "-_id"])
+    .select(["modelname", "name", "-_id", "type", "color", "weight", "height", "expiry", "amount"])
     .skip((page - 1) * size)
     .limit(size);
   return res.json({
